@@ -2,12 +2,13 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
+artifact
+.vscode
 # C extensions
 *.so
 
 # Distribution / packaging
-artifact
+
 .Python
 build/
 develop-eggs/
