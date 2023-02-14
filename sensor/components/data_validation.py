@@ -4,6 +4,7 @@ from sensor.entity.config_entity import DataValidationConfig
 from sensor.exception import SensorException
 from sensor.logger import logging
 import pandas as pd
+from sensor.utils.main_utils import read_yaml_file
 import os, sys
 
 class DataValidation:
@@ -13,20 +14,36 @@ class DataValidation:
         try:
             self.data_ingestion_artifact = data_ingestion_artifact
             self.data_validation_config = data_validation_config
-            
-            pass
+            self._schema_config = read_yaml_file(SCHEME_FILE_PATH)
         except Exception as e:
             raise SensorException(e, sys)
 
-    def validate_number_of_columns(self)->bool:
+    def validate_number_of_columns(self, dataframe:pd.DataFrame)->bool:
         try:
-            pass
+            number_of_columns = self._schema_config["columns"]
+            if len(dataframe.columns)== number_of_columns:
+                return True
+            return False
         except Exception as e:
             return SensorException(e,sys)
 
 
-    def is_numerical_column_exist(self)->bool:
-        pass
+    def is_numerical_column_exist(self,dataframe:pd.DataFrame)->bool:
+        try:
+            numerical_columns = self._schema_config["numerical_columns"]
+            dataframe_columns = dataframe.columns
+
+            numerical_column_present = True
+            missing_numerical_columns = []
+            for num_column in numerical_columns:
+                if num_column not in dataframe_columns:
+                    numerical_column_present = False
+                    missing_numerical_columns.append(num_column)
+            logging.info(f"Missing numerical columns:[{missing_numerical_columns}]")
+            return numerical_column_present
+
+        except Exception as e:
+            return SensorException(e,sys)
 
 
     @staticmethod
@@ -43,10 +60,26 @@ class DataValidation:
 
     def initiate_data_validation(self)->DataValidationArtifact:
         try:
+
+            #Configurations
+            error_message = ""
             train_file_path = self.data_ingestion_artifact.trained_file_path
             test_file_path = self.data_ingestion_artifact.test_file_path
+
+            #reading dataset
             train_dataframe = DataValidation.read_data(train_file_path)
             test_dataframe = DataValidation.read_data(test_file_path)
+
+            #Validating number of columns
+
+            status = self.validate_number_of_columns(dataframe=train_dataframe)
+            if not status:
+                error_message =f"(error_message)Train dataframe does not contain all columns "
+
+            status = self.validate_number_of_columns(dataframe=test_dataframe)
+            if not status:
+                error_message =f"(error_message)Test dataframe does not contain all columns "
+                
         except Exception as e:
             raise SensorException(e,sys)
         
