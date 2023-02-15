@@ -43,7 +43,7 @@ class DataValidation:
             return numerical_column_present
 
         except Exception as e:
-            return SensorException(e,sys)
+            raise SensorException(e,sys)
 
 
     @staticmethod
@@ -74,12 +74,25 @@ class DataValidation:
 
             status = self.validate_number_of_columns(dataframe=train_dataframe)
             if not status:
-                error_message =f"(error_message)Train dataframe does not contain all columns "
+                error_message =f"(error_message)Train dataframe does not contain all columns"
 
             status = self.validate_number_of_columns(dataframe=test_dataframe)
             if not status:
-                error_message =f"(error_message)Test dataframe does not contain all columns "
-                
+                error_message =f"(error_message)Test dataframe does not contain all columns"
+
+            #Validate numerical columns
+
+            status = self.is_numerical_column_exist(dataframe = train_dataframe)
+            if not status:
+                error_message =f"(error_message)Train dataframe does not contain all numerical columns"
+            status = self.is_numerical_column_exist(dataframe = test_dataframe)
+            if not status:
+                error_message =f"(error_message)Test dataframe does not contain all numerical columns"   
+            if len(error_message)>0:
+                raise Exception(error_message)
+
+            #datadrift
+            
         except Exception as e:
             raise SensorException(e,sys)
         
