@@ -62,6 +62,8 @@ MODEL_TRAINER_TRAINED_MODEL_NAME: str = "model.pkl"
 
 MODEL_TRAINER_EXPECTED_SCORE: float = 0.6
 
+MODEL_TRAINER_OVERFITTING_UNDERFITTING_THRESHOLD: float = 0.05
+
 MODEL_TRAINER_MODEL_CONFIG_FILE_PATH: str = os.path.join("config", "model.yaml")
 """
 MODEL Evauation related constant start with MODEL_EVALUATION var name
