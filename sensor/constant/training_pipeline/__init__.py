@@ -1,6 +1,9 @@
 import os
 from sensor.constant.s3_bucket import TRAINING_BUCKET_NAME
 
+SAVED_MODEL_DIR = os.path.join("saved_models")
+
+
 TARGET_COLUMN = "class"
 PIPELINE_NAME: str = "sensor"
 ARTIFACT_DIR: str = "artifact"
@@ -70,6 +73,10 @@ MODEL Evauation related constant start with MODEL_EVALUATION var name
 """
 
 MODEL_EVALUATION_CHANGED_THRESHOLD_SCORE: float = 0.02
+
+MODEL_EVALUATION_DIR_NAME:str = "model_trainer"
+
+MODEL_EVALUATION_REPORT_FILE_PATH = "report.yaml"
 
 MODEL_PUSHER_BUCKET_NAME = TRAINING_BUCKET_NAME
 

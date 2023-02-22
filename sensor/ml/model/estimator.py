@@ -1,11 +1,11 @@
-import sys
+import sys, os
 
 from pandas import DataFrame
 from sklearn.pipeline import Pipeline
 
 from sensor.exception import SensorException
 from sensor.logger import logging
-
+from sensor.constant.training_pipeline import SAVED_MODEL_DIR, MODEL_FILE_NAME
 
 class TargetValueMapping:
     def __init__(self):
@@ -39,3 +39,22 @@ class SensorModel:
             
         except Exception as e:
             raise SensorException(e,sys)
+
+
+class ModelResolver:
+    def __init__(self, model_dir = SAVED_MODEL_DIR):
+        try:
+            self.model_dir = model_dir
+            
+        except Exception as e:
+            raise SensorException(e, sys)
+    
+
+    def get_best_model(self)->str:
+        try:
+            timestamps = list(map(int, os.listdir(self.model_dir)))
+            latest_timestamp = max(timestamps)
+            latest_model_path =os.path.join(self.model_dir,f"{latest_timestamp}",MODEL_FILE_NAME)
+            return latest_model_path
+        except Exception as e:
+            raise SensorException(e, sys)
