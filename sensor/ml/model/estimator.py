@@ -50,7 +50,7 @@ class ModelResolver:
             raise SensorException(e, sys)
     
 
-    def get_best_model(self)->str:
+    def get_best_model_path(self)->str:
         try:
             timestamps = list(map(int, os.listdir(self.model_dir)))
             latest_timestamp = max(timestamps)
@@ -58,3 +58,18 @@ class ModelResolver:
             return latest_model_path
         except Exception as e:
             raise SensorException(e, sys)
+        
+    def is_model_exists(self)->bool:
+        try:
+            if not os.path.exists(self.model_dir):
+                return False
+            timestamps = os.listdir(self.model_dir)
+            if len(timestamps)==0:
+                return False
+            
+            latest_model_path = self.get_best_model()
+            if not os.path.exists(latest_model_path):
+                return False
+            return True 
+        except Exception as e:
+            raise SensorException(e,sys)

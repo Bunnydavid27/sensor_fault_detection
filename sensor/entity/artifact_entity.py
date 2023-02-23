@@ -54,7 +54,7 @@ class ModelTrainerArtifact:
 class ModelEvaluationArtifact:
     is_model_accepted: bool
 
-    changed_accuracy: float
+    improved_accuracy: float
 
     best_model_path: str
 
