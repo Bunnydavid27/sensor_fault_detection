@@ -21,14 +21,14 @@ class ModelPusher:
                  model_eval_artifact:ModelEvaluationArtifact):
         try:
             self.model_pusher_config = model_pusher_config
-            self.model_eval_artifact = self.model_eval_artifact
+            self.model_eval_artifact = model_eval_artifact
         except Exception as e:
             raise SensorException(e, sys)
         
 
     def initiate_model_pusher(self, ) -> ModelPusherArtifact:
         try:
-            trained_model_path = self.model_eval_artifact.train_model_file_path
+            trained_model_path = self.model_eval_artifact.trained_model_path
 
             #Creating Model Pusher dir to save model
             model_file_path= self.model_pusher_config.model_file_path
@@ -37,7 +37,7 @@ class ModelPusher:
             
             #saved model dir
             saved_model_path = self.model_pusher_config.saved_model_path
-            os.makedirs(os.path.dirname(model_file_path), exist_ok = True)
+            os.makedirs(os.path.dirname(saved_model_path), exist_ok = True)
             shutil.copy(src= trained_model_path, dst=saved_model_path)
 
 

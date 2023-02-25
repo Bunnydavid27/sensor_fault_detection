@@ -98,5 +98,5 @@ class ModelPusherConfig:
         )
         timestamp = round(datetime.now().timestamp())
         
-        self.saved_model_path = os.path.join( training_pipeline.SAVED_MODEL_DIR, timestamp, training_pipeline.MODEL_FILE_NAME)
-        pass
+        self.saved_model_path = os.path.join(training_pipeline.SAVED_MODEL_DIR, f"{timestamp}", training_pipeline.MODEL_FILE_NAME)
+        
