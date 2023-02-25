@@ -74,9 +74,16 @@ MODEL Evauation related constant start with MODEL_EVALUATION var name
 
 MODEL_EVALUATION_CHANGED_THRESHOLD_SCORE: float = 0.02
 
-MODEL_EVALUATION_DIR_NAME:str = "model_trainer"
+MODEL_EVALUATION_DIR_NAME:str = "model_evaluation"
 
 MODEL_EVALUATION_REPORT_FILE_PATH = "report.yaml"
+
+
+"""
+MODEL PUSHER related constants that are used in MODEL_PUSHER
+"""
+
+MODEL_PUSHER_DIR_NAME = "model_pusher"
 
 MODEL_PUSHER_BUCKET_NAME = TRAINING_BUCKET_NAME
 

@@ -67,6 +67,10 @@ class ModelEvaluationArtifact:
 
 @dataclass
 class ModelPusherArtifact:
-    bucket_name: str
+    saved_model_path: str
 
-    s3_model_path: str
+    model_file_path: str
+
+    # bucket_name: str
+
+    # s3_model_path: str
