@@ -91,8 +91,8 @@ def load_object(file_path: str) -> object:
             raise Exception(f"the file path {file_path} is not exists")
 
         with open(file_path, "rb") as file_obj:
-            obj = dill.load(file_obj)
-            return obj
+            return dill.load(file_obj)
+            
         #return obj
 
     except Exception as e:

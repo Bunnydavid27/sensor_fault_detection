@@ -2,7 +2,7 @@ import os
 from sensor.constant.s3_bucket import TRAINING_BUCKET_NAME
 
 SAVED_MODEL_DIR = os.path.join("saved_models")
-
+MONGO_DB_ENV_FILE_PATH="config/workspace/env.yaml"
 
 TARGET_COLUMN = "class"
 PIPELINE_NAME: str = "sensor"

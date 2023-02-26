@@ -6,4 +6,19 @@ scipy
 dill
 imblearn ==0.0
 xgboost
+fastapi
+starlette
+uvicorn
+dnspython
+evidently
+from-root
+httptools
+mypy-boto3-s3
+pip-chill
+python-dotenv
+types-s3transfer
+watchfiles
+websockets
+wincertstore
+neuro-mf
 -e.
