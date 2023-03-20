@@ -1,0 +1,3 @@
+access key:- AKIAZWSVVKDW5TYNWJVY
+Secret AK:-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
+ECR:666973327597.dkr.ecr.ap-southeast-2.amazonaws.com/sensor_fault_det_bd

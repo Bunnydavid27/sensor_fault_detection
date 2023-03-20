@@ -53,7 +53,7 @@ async def train_route():
    except Exception as e:
         return Response(f"Error Occured{e}")
 
-@app.get("predict")
+@app.get("/predict")
 async def predict_route():
     try:
         #get data from user csv file
