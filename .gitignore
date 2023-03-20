@@ -4,6 +4,9 @@ __pycache__/
 *$py.class
 artifact
 .vscode
+.Sensor_Fault_Det_BD_accessKeys.csv
+.sensor-key-pair.pem
+.aws.txt
 # C extensions
 *.so
 
