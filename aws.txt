@@ -6,3 +6,5 @@ login-uri:-666973327597.dkr.ecr.ap-southeast-2.amazonaws.com/sensor_fault_det_bd
 666973327597.dkr.ecr.ap-southeast-2.amazonaws.com
 repo_name:-sensor_fault_det_bd
 mongo_url:-mongodb+srv://bunnydavid:bunnydavid2712@cluster0.jkjxroa.mongodb.net/?retryWrites=true&w=majority
+IAM:-Sensor_Fault_Det_BD
+scania-sensor-bd1

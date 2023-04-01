@@ -1,5 +1,4 @@
 import sys
-
 import numpy as np
 import pandas as pd
 from imblearn.combine import SMOTETomek
@@ -59,12 +58,12 @@ class DataTransformation:
             input_feature_train_df = train_df.drop(columns=[TARGET_COLUMN],axis=1)
             target_feature_train_df = train_df[TARGET_COLUMN]
             target_feature_train_df = target_feature_train_df.replace(TargetValueMapping().to_dict())
-
+            
 
             input_feature_test_df = test_df.drop(columns=[TARGET_COLUMN],axis=1)
             target_feature_test_df = test_df[TARGET_COLUMN]
             target_feature_test_df = target_feature_test_df.replace(TargetValueMapping().to_dict())
-             
+            
              
             preprocessor_object = preprocessor.fit(input_feature_train_df)
             transformed_input_train_feature = preprocessor_object.transform(input_feature_train_df)
@@ -80,6 +79,7 @@ class DataTransformation:
             input_feature_test_final, target_feature_test_final = smt.fit_resample(
                 transformed_input_test_feature, target_feature_test_df
             )
+            
 
             train_array = np.c_[input_feature_train_final, target_feature_train_final]
             test_array = np.c_[input_feature_test_final, target_feature_test_final]

@@ -8,6 +8,7 @@ from xgboost import XGBClassifier
 from sensor.ml.metric.classification_metric import get_classification_score
 from sensor.ml.model.estimator import SensorModel
 from sensor.utils.main_utils import save_object, load_object
+import pandas as pd
 
 
 class ModelTrainer:
@@ -29,7 +30,7 @@ class ModelTrainer:
             xgb_clf.fit(x_train,y_train)
             return xgb_clf
 
-            pass
+            
         except Exception as e:
             raise SensorException(e, sys)
 
@@ -39,6 +40,8 @@ class ModelTrainer:
             test_file_path = self.data_transformation_artifact.transformed_test_file_path
             train_arr=load_numpy_array_data(train_file_path)
             test_arr=load_numpy_array_data(test_file_path)
+            df_test_final = pd.DataFrame(test_arr)
+            save_object(self.model_trainer_config.predict_file, df_test_final)
             x_train, y_train, x_test, y_test = (
                 train_arr[:, :-1],
                 train_arr[:, -1],

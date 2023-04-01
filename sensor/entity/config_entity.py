@@ -2,8 +2,8 @@ from datetime import datetime
 import os
 from sensor.constant import training_pipeline
 from dataclasses import dataclass
-
-
+from sensor.constant import prediction_pipeline
+from sensor.constant.training_pipeline import MODEL_PUSHER_S3_KEY, MODEL_FILE_NAME
 @dataclass
 class TrainingPipelineConfig:
 
@@ -37,6 +37,8 @@ class DataIngestionConfig:
 
         self.collection_name: str = training_pipeline.DATA_INGESTION_COLLECTION_NAME
 
+        
+
 
 @dataclass
 class DataValidationConfig:
@@ -53,6 +55,7 @@ class DataValidationConfig:
             training_pipeline.DATA_VALIDATION_DRIFT_REPORT_DIR,
             training_pipeline.DATA_VALIDATION_DRIFT_REPORT_FILE_NAME
             )
+        
 
 
 @dataclass
@@ -65,7 +68,8 @@ class DataTransformationConfig:
         self.transformed_test_file_path: str = os.path.join(self.data_transformation_dir,training_pipeline.DATA_TRANSFORMATION_TRANSFORMED_DATA_DIR,training_pipeline.TEST_FILE_NAME.replace("csv","npy"))
 
         self.transformed_object_file_path: str = os.path.join(self.data_transformation_dir, training_pipeline.DATA_TRANSFORMATION_TRANSFORMED_OBJECT_DIR, training_pipeline.PREPROCESSING_OBJECT_FILE_NAME)
-
+        
+        
         
 
 @dataclass
@@ -75,7 +79,7 @@ class ModelTrainerConfig:
         self.trained_model_file_path: str = os.path.join(self.model_trainer_dir, training_pipeline.MODEL_TRAINER_TRAINED_MODEL_DIR)
         self.expected_accuracy:float = training_pipeline.MODEL_TRAINER_EXPECTED_SCORE
         self.overfitting_underfitting_threshold:float = training_pipeline.MODEL_TRAINER_OVERFITTING_UNDERFITTING_THRESHOLD
-
+        self.predict_file : str = os.path.join(prediction_pipeline.PREDICT_TEST,prediction_pipeline.PREDICTION_INPUT_FILE_NAME)
 
 
 @dataclass
@@ -100,3 +104,28 @@ class ModelPusherConfig:
         
         self.saved_model_path = os.path.join(training_pipeline.SAVED_MODEL_DIR, f"{timestamp}", training_pipeline.MODEL_FILE_NAME)
         
+@dataclass
+class PredictionPipelineConfig:
+
+    data_bucket_name: str = prediction_pipeline.PREDICTION_DATA_BUCKET
+
+    data_file_path: str = prediction_pipeline.PREDICTION_INPUT_FILE_NAME
+
+    model_file_path: str = os.path.join(MODEL_PUSHER_S3_KEY, MODEL_FILE_NAME)
+
+    model_bucket_name: str = prediction_pipeline.MODEL_BUCKET_NAME
+
+    output_file_name: str = prediction_pipeline.PREDICTION_OUTPUT_FILE_NAME
+
+@dataclass
+class Prediction_Config:
+
+    def __init__(self,training_pipeline_config:TrainingPipelineConfig):
+        timestamp = round(datetime.now().timestamp())
+        self.prediction_dir: str = os.path.join(
+            training_pipeline_config.artifact_dir, prediction_pipeline.PREDICTION_DIR_NAME
+        )
+
+        self.prediction_file_path:str = os.path.join(
+            self.prediction_dir, f"{timestamp}", prediction_pipeline.PREDICTION_OUTPUT_FILE_NAME
+        )
