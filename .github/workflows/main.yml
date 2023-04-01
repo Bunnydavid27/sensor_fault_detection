@@ -1,5 +1,8 @@
 name: workflow
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5a5e12a70aae38641206a80bb7fcdc5c38420e43
 on:
   push:
     branches:
@@ -85,13 +88,23 @@ jobs:
       - name: Pull latest images
         run: |
          docker pull ${{secrets.AWS_ECR_LOGIN_URI}}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
+<<<<<<< HEAD
       - name: Stop and remove sensor container if running
         run: |
          docker ps -q --filter "name=sensor" | grep -q . && docker stop sensor && docker rm -fv sensor
+=======
+#       - name: Stop and remove sensor container if running
+#         run: |
+#          docker ps -q --filter "name=sensor" | grep -q . && docker stop sensor && docker rm -fv sensor
+>>>>>>> 5a5e12a70aae38641206a80bb7fcdc5c38420e43
        
       - name: Run Docker Image to serve users
         run: |
          docker run -d -p 80:8080 --name=sensor -e 'MONGO_DB_URL=${{ secrets.MONGO_DB_URL }}' -e 'AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}' -e 'AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}' -e 'AWS_REGION=${{ secrets.AWS_REGION }}'  ${{secrets.AWS_ECR_LOGIN_URI}}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
       - name: Clean previous images and containers
         run: |
+<<<<<<< HEAD
          docker system prune -f
+=======
+         docker system prune -f
+>>>>>>> 5a5e12a70aae38641206a80bb7fcdc5c38420e43

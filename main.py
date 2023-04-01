@@ -56,24 +56,6 @@ app.add_middleware(
 async def index():
     return RedirectResponse(url="/docs")
 
-# @app.post("/upload")
-# def upload( files: UploadFile = File(...)):
-
-#     return {"file": files} 
-
-# @app.post("/upload")
-# def upload(file:UploadFile):
-#     try:
-#         contents = file.file.read()
-#         return contents
-#         # with open(file.filename, 'wb') as f:
-#         #     f.write(contents)
-#     except Exception:
-#         return {"message": "There was an error uploading the file"}
-#     finally:
-#         file.file.close()
-
-#     return {"message": f"Successfully uploaded {file.filename}"}
 
 @app.get("/train")
 async def train_route():
@@ -92,15 +74,13 @@ async def root():
     return {1: "Data contains class",2:"Data Directly for prediction"}
 
 @app.get("/predict")
-async def predict_route(dataset: Annotated[str, Form()]):
+async def predict_route(Dataset: Annotated[str, Form()]):
     try:
-        #get data from user csv file
-        #conver csv file to dataframe
+
         # prediction_pipeline = PredictionPipeline()
         # prediction_pipeline.initiate_prediction()
-        data = {"dataset": dataset}
-        df_file = str(data.get('dataset'))
-        print(df_file)  
+        data = {"dataset": Dataset}
+        df_file = str(data.get('dataset'))  
         # df_file = create_upload_file(UploadFile)
         # print(df_file)
         # test_file_path = os.path.join(prediction_pipeline.PREDICT_TEST,prediction_pipeline.PREDICTION_INPUT_FILE_NAME) 
@@ -108,19 +88,19 @@ async def predict_route(dataset: Annotated[str, Form()]):
         # df = load_object(test_file_path)
         # df = pd.DataFrame(df)
         df=pd.read_csv(df_file)
-        df = df.drop('class',axis='columns')
+        df = df.drop('class',axis='columns',errors='ignore')
         schema_config = read_yaml_file(SCHEME_FILE_PATH)
         df = df.drop(
-                schema_config["drop_columns"], axis=1
+                schema_config["drop_columns"], axis=1,errors='ignore'
             )
         print(df)
         model_resolver = ModelResolver(model_dir=SAVED_MODEL_DIR)
         if not model_resolver.is_model_exists():
             return Response("Model is not available")
         
-        # best_model_path = model_resolver.get_best_model_path()
-        # model = load_object(file_path=best_model_path)
-        model = load_object(file_path=os.path.join(r"saved_models\1679902003\model.pkl"))
+        best_model_path = model_resolver.get_best_model_path()
+        model = load_object(file_path=best_model_path)
+        # model = load_object(file_path=os.path.join(r"saved_models\1679902003\model.pkl"))
         y_pred = model.predict(df)
         y_pre = pd.DataFrame(y_pred)
         df['predicted_column'] = y_pred
